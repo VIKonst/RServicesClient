@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RServicesClient.Core.Scripts
@@ -55,9 +56,14 @@ namespace RServicesClient.Core.Scripts
 
         public Task<SqlDataReader> ExecuteDataReaderAsync()
         {
-            SetComandParams();
+            return ExecuteDataReaderAsync(CancellationToken.None);
+        }
 
-            return _sqlCommand.ExecuteReaderAsync();
+        public Task<SqlDataReader> ExecuteDataReaderAsync(CancellationToken cancellationToken)
+        {
+            SetComandParams();
+            cancellationToken.ThrowIfCancellationRequested();
+            return _sqlCommand.ExecuteReaderAsync(cancellationToken);
         }
 
         public ReadOnlyCollection<Byte[]> ExecuteBinaryData()
@@ -75,18 +81,25 @@ namespace RServicesClient.Core.Scripts
             return binaryCollection.AsReadOnly();
         }
 
-        public async Task<ReadOnlyCollection<Byte[]>> ExecuteBinaryDataAsync()
+        public Task<ReadOnlyCollection<Byte[]>> ExecuteBinaryDataAsync()
+        {
+            return ExecuteBinaryDataAsync(CancellationToken.None);
+        }
+
+
+        public async Task<ReadOnlyCollection<Byte[]>> ExecuteBinaryDataAsync(CancellationToken cancellationToken)
         {
             List<Byte[]> binaryCollection = new List<Byte[]>();
 
-            using (SqlDataReader reader = await ExecuteDataReaderAsync().ConfigureAwait(false))
+            using (SqlDataReader reader = await ExecuteDataReaderAsync(cancellationToken).ConfigureAwait(false))
             {
-                while (await reader.ReadAsync().ConfigureAwait(false))
+                while (await reader.ReadAsync(cancellationToken).ConfigureAwait(false))
                 {
-                    binaryCollection.Add(reader.GetSqlBinary(0).Value);
+                    cancellationToken.ThrowIfCancellationRequested();
+                    binaryCollection.Add(reader.GetSqlBinary(0).Value);                    
                 }
             }
-
+            cancellationToken.ThrowIfCancellationRequested();
             return binaryCollection.AsReadOnly();
         }
 

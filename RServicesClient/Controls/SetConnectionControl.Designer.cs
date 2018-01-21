@@ -86,7 +86,7 @@
             this.cbDbSource.FormattingEnabled = true;
             this.cbDbSource.Name = "cbDbSource";
             this.cbDbSource.DropDown += new System.EventHandler(this.cbDbSource_DropDown);
-            this.cbDbSource.SelectedIndexChanged += new System.EventHandler(this.cbDbSource_SelectedIndexChanged);
+            this.cbDbSource.Click += new System.EventHandler(this.cbDbSource_Click);
             // 
             // cbServer
             // 

@@ -7,7 +7,7 @@
     <ProjectGuid>{05D0528B-199D-4398-B6E5-3254A40E8B31}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>DataAnalyzer</RootNamespace>
-    <AssemblyName>DataAnalyzer</AssemblyName>
+    <AssemblyName>RServicesClient</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=1.50.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.4\lib\net451\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="FastColoredTextBox, Version=2.16.21.0, Culture=neutral, PublicKeyToken=fb8aa12b994ef61b, processorArchitecture=MSIL">
       <HintPath>..\packages\FCTB.2.16.21.0\lib\FastColoredTextBox.dll</HintPath>
     </Reference>
@@ -63,11 +66,29 @@
     <Compile Include="DataForm.Designer.cs">
       <DependentUpon>DataForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DbStorage\DBStorage.cs" />
+    <Compile Include="DbStorage\Models\CategoryModel.cs" />
+    <Compile Include="DbStorage\Models\ScriptModel.cs" />
+    <Compile Include="DbStorage\Scripts.cs" />
+    <Compile Include="DBStructureForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DBStructureForm.Designer.cs">
+      <DependentUpon>DBStructureForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FileSaving\FileLoader.cs" />
+    <Compile Include="FileSaving\RServicesFileData.cs" />
     <Compile Include="ImageForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ImageForm.Designer.cs">
       <DependentUpon>ImageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InputNameDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InputNameDialog.Designer.cs">
+      <DependentUpon>InputNameDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -89,14 +110,24 @@
     <Compile Include="SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SqlServer\DataBaseHelper.cs" />
     <EmbeddedResource Include="Controls\SetConnectionControl.resx">
+      <DependentUpon>SetConnectionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SetConnectionControl.uk.resx">
       <DependentUpon>SetConnectionControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DataForm.resx">
       <DependentUpon>DataForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DBStructureForm.resx">
+      <DependentUpon>DBStructureForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ImageForm.resx">
       <DependentUpon>ImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InputNameDialog.resx">
+      <DependentUpon>InputNameDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -116,7 +147,9 @@
     <EmbeddedResource Include="SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -136,5 +169,6 @@
       <Name>RServicesClient.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
